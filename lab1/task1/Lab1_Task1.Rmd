@@ -16,7 +16,7 @@ output:
 df <- read.csv("data/lab1_e1.csv")
 
 # function which deletes spaces in numbers in one column
-clear_spaces <- function(V) {
+fix_data <- function(V) {
   # delete all spaces in column 
   V_no_spaces <- gsub(" ", "", V)
   # try to cast character type to numeric: we will have numeric and NA values
@@ -26,7 +26,7 @@ clear_spaces <- function(V) {
 }
 
 # use 'lapply' to apply function which clear spaces in one column to whole DF
-fixed_df = data.frame(lapply(df, clear_spaces))
+fixed_df = data.frame(lapply(df, fix_data))
 # show fixed DF
 print(fixed_df)
 # save fixed DF as .csv file
