@@ -1,0 +1,40 @@
+---
+title: "Lab1_Task2"
+author: "Viktor Ushkov"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+### Задание 2.
+
+Файл с данными lab1_e2.Rdata. Допустим, в рамках некоторого медицинского исследования тестировалась эффективность новой вакцины от вируса гриппа. Одной из целей исследования являлось изучить динамику температуры тела пациентов на протяжении недели после вакцинации. Пациенты должны были каждый день приходить на осмо тр, где у них измеряли температуру. Каждый из семи дней экспериментатор вносил в таблицу id пациента и его температуру. После окончания исследования выяснилось, что некоторые пациенты не смогли посетить все семь приемов. Кто - то после первого раза больше не приходил на обследование, кто - то пропустил некоторые дни и т.д. Для чистоты исследования врачам необходимо отобрать из всех пациентов только тех, кто посетили каждый из семи приемов. Все данные хранятся в следующем формате: в списке all_data сохранены се мь датафреймов, с двумя колонками:
+
+1.  id - закодированное имя пациента
+2.  temp - значения температуры.
+
+Ваша задача написать функцию get_id, которая получает на вход такого рода список, состоящий из семи датафрэймов. Функция, должна вернуть новый датаф рэйм, в котором будут две переменные id и mean_temp - среднее значение температуры за неделю только тех пациентов, которые посетили все семь приемов, то есть id таких пациентов присутствует в каждом из семи датафреймов.
+
+```{r echo=FALSE, warning=FALSE}
+# read data
+load("data/lab1_e2.Rdata")
+
+#main function
+get_id <- function(dframes) {
+  #merge all DFs with Reduce by 'id' key - we will have DF with 'id' and 7 columns of temp
+  #if ID is not in one of DF in list - it won't be included in merged DF
+  tmp <- Reduce(function(df1, df2) f=merge(df1, df2, by='id'), x=dframes)
+  #get mean temp from columns of tmp DF
+  mean_T <- rowMeans(tmp[2:8])
+  #make result DF and return it
+  result_df <- data.frame(id = tmp[, 1], mean_temp = mean_T)
+}
+
+#get data
+result_df <- get_id(all_data)
+#print result DF
+print(result_df)
+#save result as .csv file
+write.csv(result_df, "lab1_e2_result.csv")
+```
