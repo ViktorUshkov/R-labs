@@ -25,13 +25,8 @@ clear_spaces <- function(V) {
   fixed_V <- ifelse(is.na(V_no_spaces), V, V_no_spaces)
 }
 
-#main func fix_data
-fix_data <- function(df) {
-  # use 'lapply' to apply function which clear spaces in one column to whole DF
-  fixed_df <- data.frame(lapply(df, clear_spaces))
-}
-
-fixed_df <- fix_data(df)
+# use 'lapply' to apply function which clear spaces in one column to whole DF
+fixed_df = data.frame(lapply(df, clear_spaces))
 # show fixed DF
 print(fixed_df)
 # save fixed DF as .csv file
